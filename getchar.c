@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * _getchar - get characters of the cmd line 
+ * _getchar - get characters of the cmd line
  * Return: cmd line or EOF.
  **/
 int _getchar(void)
