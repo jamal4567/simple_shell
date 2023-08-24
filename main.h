@@ -58,7 +58,7 @@ int _printf(const char *frmt, ...);
 char *check_path(char *arm);
 char *execute_command(char *arm);
 int main(int __attribute__((unused))ac, char **ar, char **env);
-int _exit(char *l);
+int my_exit(char *l);
 int _env(char *l, int count, char **ar, char **env);
 void _signal(int sg);
 int _getchar(void);

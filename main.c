@@ -33,7 +33,7 @@ int main(int __attribute__((unused))ac, char **ar, char **env)
 		{
 			count++;
 			_strtok(cmd_line, "\n");
-			if (_exit(cmd_line) == 0)
+			if (my_exit(cmd_line) == 0)
 				return (status_output);
 			if (_env(cmd_line, count, ar, env) == 0)
 				continue;

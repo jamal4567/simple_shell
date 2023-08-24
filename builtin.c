@@ -4,7 +4,7 @@
  * @l: command
  * Return: 0 or 1
  **/
-int _exit(char *l)
+int my_exit(char *l)
 {
 	char *exit_l = "exit";
 	int i;
