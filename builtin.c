@@ -1,4 +1,4 @@
-#include "holberton.h"
+#include "main.h"
 /**
  * _myexit - check command
  * @line: command
