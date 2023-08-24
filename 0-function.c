@@ -40,8 +40,8 @@ char *_get_env(const char *nm)
  **/
 ssize_t _get_lin(char **bufferline, size_t *s, FILE *st)
 {
-	s_t count = 0;
-	s_t alloc = 1024;
+	size_t count = 0;
+	size_t alloc = 1024;
 	char c;
 
 	if (!bufferline || !s || !st)
@@ -52,7 +52,7 @@ ssize_t _get_lin(char **bufferline, size_t *s, FILE *st)
 		if (!(*bufferline))
 			return (-1);
 	}
-	while ((c = _get_char()) != EOF)
+	while ((c = _getchar()) != EOF)
 	{
 		if (c == '\n')
 		{
