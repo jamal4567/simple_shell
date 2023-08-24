@@ -1,10 +1,10 @@
 #include "main.h"
 /**
- * exit - check command to exit
+ * _exit - check command to exit
  * @l: command
  * Return: 0 or 1
  **/
-int exit(char *l)
+int _exit(char *l)
 {
 	char *exit_l = "exit";
 	int i;
