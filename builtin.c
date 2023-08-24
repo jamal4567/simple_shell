@@ -1,6 +1,6 @@
 #include "main.h"
 /**
- * _exit - check command to exit
+ *my_exit - check command to exit
  * @l: command
  * Return: 0 or 1
  **/
