@@ -1,80 +1,92 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef _MAIN_H_
+#define _MAIN_H_
 
-extern char **environ;
-
-/* header files */
-#include <sys/types.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <string.h>
-#include <dirent.h>
-#include <errno.h>
+#include <limits.h>
 #include <signal.h>
 
-/**
- * struct shell_env - stores address for pointer to free.
- * @path_values: pointer to path values
- * @input: pointer to buffer that getline creates.
- * @input_token: pointers for input token.
- * @modify_path: pointer to the path after it has been modified
- *
- * Description: provides a storage for all elements that are malloced.
- */
-typedef struct shell_env
-{
-	char **path_values;
-	char *input;
-	char **input_token;
-	char *modify_path;
-} shell_t;
 
 /**
- * struct built_in_cmd - struct for different built in commands.
- * @cmd_name: name of the cmd
- * @cmd: function pointer to run the cmd
- *
- * Description: struct for different built in commands in our shell
+ * struct variables - variables
+ * @av: command line arguments
+ * @buffer: buffer of command
+ * @env: environment variables
+ * @count: count of commands entered
+ * @argv: arguments at opening of shell
+ * @status: exit status
+ * @commands: double pointer to commands
  */
-typedef struct built_in_cmd
+
+typedef struct variables
 {
-	char *cmd_name;
-	void (*cmd)(shell_t *);
-} built_t;
+	char **av;
+	char **argv;
+	char *buffer;
+	char **commands;
+	char **env;
+	size_t count;
+	int status;
+} vars_t;
 
-/* main.c */
-int run_build_in(shell_t *, char *);
-int run_command(shell_t *, char *, char **);
-int run_path(shell_t *, char *);
-int check_slash(char *);
 
-/* string.c */
-size_t _strlen(char *);
-char *_strdup(char *);
-char **tokenize_str(char *, char *);
-int _strcmp(char *, char *);
+/**
+ * struct builtins - struct for the builtin functions
+ * @name: name of builtin command
+ * @f: function for corresponding builtin
+ */
+typedef struct builtins
+{
+	char *name;
+	void (*f)(vars_t *);
+} builtins_t;
 
-/* prompt_util.c */
-void print_ps1(int);
-char *find_pathname(char **, char *);
-char *_getenv(const char *);
-char *make_pathname(char *, char *);
-char **get_path(char **);
 
-/* prompt_util2.c */
-void free_shell_t(shell_t *);
-void p_commanderr(char *, char *);
+/* Environment variable */
+char **create_env(char **env);
+void free_env(char **env);
 
-/* buildin.c */
-void my_exit(shell_t *);
-void print_env(shell_t *);
+/* Utility functions */
+ssize_t _puts(char *str);
+char *_strdup(char *strtodup);
+int _strcmpr(char *strcmp1, char *strcmp2);
+char *_strcat(char *strc1, char *strc2);
+unsigned int _strlen(char *str);
 
-/* function prototypes */
-char *_strtok(char *, const char *);
-ssize_t getline(char **, size_t *, FILE *);
+/* Tokenization */
+char **tokenize(char *buf, char *delimiter);
+char **_realloc(char **ptr, size_t *size);
+char *_strtok(char *str, const char *delim);
+
+/* Path Handler */
+void check_for_path(vars_t *vars);
+char *find_path(char **env);
+int path_exec(char *command, vars_t *vars);
+int execute_cwd_cmd(vars_t *vars);
+int check_for_dir(char *str);
+
+/* Environment handlers */
+void (*check_for_builtins(vars_t *vars))(vars_t *vars);
+void custom_exit(vars_t *vars);
+void _env(vars_t *vars);
+void _setenv(vars_t *vars);
+void _unsetenv(vars_t *vars);
+
+/* File Finder */
+void add_key(vars_t *vars);
+char **find_key(char **env, char *key);
+char *add_value(char *key, char *value);
+int _atoi(char *str);
+
+/* Error Handling */
+void print_error(vars_t *vars, char *msg);
+void _puts2(char *str);
+char *_uitoa(unsigned int count);
+
 
 #endif
